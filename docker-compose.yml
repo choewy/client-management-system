@@ -1,0 +1,14 @@
+services:
+  db:
+    build: ./mysql/
+    cap_add:
+      - SYS_NICE
+    command: --authentication_policy=mysql_native_password
+    restart: always
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/sqls:/docker-entrypoint-initdb.d
+    ports:
+      - 5001:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
