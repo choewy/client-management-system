@@ -10,35 +10,36 @@ CREATE TABLE IF NOT EXISTS customer (
 	name VARCHAR(64),
 	birthday VARCHAR(64),
 	gender VARCHAR(64),
-	job VARCHAR(64)
+	job VARCHAR(64),
+	createdAt DATETIME,
+	deletedAt DATETIME,
+	isDeleted TINYINT(1)
 ) DEFAULT CHARACTER SET UTF8 COLLATE utf8_general_ci;
 
-INSERT INTO customer(image, name, birthday, gender, job)
+INSERT INTO customer
 SELECT
+	NULL,
 	"https://placeimg.com/64/64/1",
 	"최원영",
 	"1995-03-02",
 	"남자",
-	"개발자"
+	"개발자",
+	NOW() ,
+	NULL,
+	0
 FROM DUAL 
-	WHERE (SELECT COUNT(*) FROM customer) < 3;
+	WHERE (SELECT COUNT(*) FROM customer) < 2;
 
-INSERT INTO customer(image, name, birthday, gender, job)
+INSERT INTO customer
 SELECT
+	NULL,
 	"https://placeimg.com/64/64/1",
-	"박길현",
-	"1980-03-02",
-	"남자",
-	"백수"
-FROM DUAL 
-	WHERE (SELECT COUNT(*) FROM customer) < 3;
-
-INSERT INTO customer(image, name, birthday, gender, job)
-SELECT
-	"https://placeimg.com/64/64/1",
-	"홍상수",
-	"2000-03-02",
+	"아이유",
+	"1992-03-02",
 	"여자",
-	"공무원"
+	"가수",
+	NOW() ,
+	NULL,
+	0
 FROM DUAL 
-	WHERE (SELECT COUNT(*) FROM customer) < 3;
+	WHERE (SELECT COUNT(*) FROM customer) < 2;
