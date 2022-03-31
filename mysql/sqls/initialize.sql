@@ -1,8 +1,8 @@
+CREATE DATABASE IF NOT EXISTS service;
+
+USE service;
 SET GLOBAL time_zone="Asia/Seoul";
 SET time_zone="Asia/Seoul";
-
-CREATE DATABASE IF NOT EXISTS service;
-USE service;
 
 CREATE TABLE IF NOT EXISTS customer (
 	customer_id INT PRIMARY KEY AUTO_INCREMENT,
