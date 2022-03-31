@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import Customer from "./components/Customer";
 
-function App() {
+const clientProps = [
+  {
+    id: 1,
+    image: "https://placeimg.com/64/64/any",
+    name: "최원영",
+    birthday: "950302",
+    gender: "남자",
+    job: "선원"
+  },
+  {
+    id: 2,
+    image: "https://placeimg.com/64/64/any",
+    name: "테스트",
+    birthday: "950302",
+    gender: "남자",
+    job: "선원"
+  },
+  {
+    id: 3,
+    image: "https://placeimg.com/64/64/any",
+    name: "홍길동",
+    birthday: "950302",
+    gender: "남자",
+    job: "선원"
+  }
+];
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Customer customers={clientProps} />
   );
-}
+};
 
 export default App;
