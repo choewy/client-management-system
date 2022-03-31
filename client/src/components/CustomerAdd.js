@@ -15,7 +15,7 @@ const initializeCostomer = {
     fileData: null
 };
 
-const CustomerForm = (props) => {
+const CustomerAdd = (props) => {
     const { customers, setCustomers } = props;
     const [customer, setCustomer] = useState({ ...initializeCostomer });
 
@@ -58,4 +58,4 @@ const CustomerForm = (props) => {
     )
 };
 
-export default withStyles(styles)(CustomerForm);
+export default withStyles(styles)(CustomerAdd);

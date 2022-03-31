@@ -2,7 +2,7 @@ import Paper from "@mui/material/Paper";
 import withStyles from "@mui/styles/withStyles";
 import { useEffect, useState } from "react";
 import { getCustomers } from "./actions/actions.customers";
-import CustomerForm from "./components/CustomerForm";
+import CustomerAdd from "./components/CustomerAdd";
 import Customers from "./components/Customers";
 
 const styles = (theme) => ({
@@ -17,7 +17,7 @@ const App = (props) => {
   const { classes } = props;
   const [customers, setCustomers] = useState();
 
-  const customerFormProps = {
+  const customerAddProps = {
     customers, setCustomers
   };
 
@@ -36,7 +36,7 @@ const App = (props) => {
 
   return (
     <div>
-      <CustomerForm {...customerFormProps} />
+      <CustomerAdd {...customerAddProps} />
       <Paper className={classes.app}>
         <Customers {...customersProps} />
       </Paper>

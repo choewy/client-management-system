@@ -1,9 +1,7 @@
 import withStyles from "@mui/styles/withStyles";
 import { deleteCustomer } from "../actions/actions.customers";
 
-const styles = (theme) => ({
-
-});
+const styles = (theme) => ({});
 
 const CustomerDelete = (props) => {
     const { customer_id, customers, setCustomers } = props;
