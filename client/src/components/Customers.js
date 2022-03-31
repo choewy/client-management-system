@@ -57,7 +57,7 @@ const Customers = (props) => {
                         customers.map((customer, key) => {
                             return (
                                 <TableRow key={key}>
-                                    <TableCell>{customer.id}</TableCell>
+                                    <TableCell>{customer.customer_id}</TableCell>
                                     <TableCell><img alt="profile" src={customer.image} /></TableCell>
                                     <TableCell>{customer.name}</TableCell>
                                     <TableCell>{customer.birthday}</TableCell>
