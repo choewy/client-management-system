@@ -38,9 +38,9 @@ const CustomerForm = (props) => {
             name, birthday, gender, job,
             image: fileData
         };
-        const { success, row } = await addCustomer(body);
+        const { success, row, message } = await addCustomer(body);
 
-        if (!success) return alert("고객 정보 저장 중 오류가 발생하였습니다.");
+        if (!success) return alert(message);
         setCustomer({ ...initializeCostomer });
         setCustomers([...customers, row]);
     };

@@ -6,6 +6,7 @@ import TableRow from "@mui/material/TableRow";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import withStyles from "@mui/styles/withStyles";
+import CustomerDelete from "./CustomerDelete";
 
 const styles = (theme) => ({
     table: {
@@ -29,8 +30,10 @@ const styles = (theme) => ({
     },
 });
 
+const tableColumns = ["번호", "이미지", "이름", "생년월일", "성별", "직업", "등록일자"]
+
 const Customers = (props) => {
-    const { classes, customers } = props;
+    const { classes, customers, setCustomers } = props;
 
     if (!customers) {
         return (
@@ -45,21 +48,25 @@ const Customers = (props) => {
             <Table className={classes.table}>
                 <TableHead>
                     <TableRow>
-                        <TableCell>번호</TableCell>
-                        <TableCell>이미지</TableCell>
-                        <TableCell>이름</TableCell>
-                        <TableCell>생년월일</TableCell>
-                        <TableCell>성별</TableCell>
-                        <TableCell>직업</TableCell>
+                        {
+                            tableColumns.map((column, key) => {
+                                return <TableCell key={key}>{column}</TableCell>;
+                            })
+                        }
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {
                         customers.map((customer, key) => {
-                            const { customer_id, image, name, birthday, gender, job } = customer;
+                            const { customer_id, image, name, birthday, gender, job, createdAt } = customer;
+                            const customerDeleteProps = {
+                                customer_id,
+                                customers,
+                                setCustomers
+                            };
                             return (
                                 <TableRow key={key}>
-                                    <TableCell>{customer_id}</TableCell>
+                                    <TableCell>{key + 1}</TableCell>
                                     <TableCell>
                                         {
                                             image
@@ -71,6 +78,10 @@ const Customers = (props) => {
                                     <TableCell>{birthday}</TableCell>
                                     <TableCell>{gender}</TableCell>
                                     <TableCell>{job}</TableCell>
+                                    <TableCell>{createdAt}</TableCell>
+                                    <TableCell>
+                                        <CustomerDelete {...customerDeleteProps} />
+                                    </TableCell>
                                 </TableRow>
                             );
                         })

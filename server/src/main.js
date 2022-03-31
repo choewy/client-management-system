@@ -28,8 +28,14 @@ const multer = require('multer');
 const upload = multer({ dest: '../upload' });
 
 app.get('/api/customers', (req, res) => {
-    const query = `SELECT * FROM customer`;
-    connection.query(query, (err, rows, fields) => {
+    const query = `SELECT * FROM customer WHERE isDeleted = 0`;
+    connection.query(query, (error, rows, fields) => {
+        if (error) {
+            return res.json({
+                success: false,
+                message: error.sqlMessage
+            });
+        };
         return res.json({
             success: true,
             rows
@@ -40,9 +46,18 @@ app.get('/api/customers', (req, res) => {
 app.post('/api/customers', upload.single('image'), (req, res) => {
     const image = req.file ? `/image/${req.file.filename}` : null;
     const { name, birthday, gender, job } = req.body;
-    const query = `INSERT INTO customer VALUES(null, ?, ?, ?, ?, ?)`;
-    const params = [image, name, birthday, gender, job];
-    connection.query(query, params, (err, rows, fields) => {
+    const createdAt = new Date();
+    const deletedAt = null;
+    const isDeleted = 0;
+    const query = `INSERT INTO customer VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const params = [image, name, birthday, gender, job, createdAt, deletedAt, isDeleted];
+    connection.query(query, params, (error, rows, fields) => {
+        if (error) {
+            return res.json({
+                success: false,
+                message: error.sqlMessage
+            });
+        };
         return res.json({
             success: true,
             row: {
@@ -51,10 +66,29 @@ app.post('/api/customers', upload.single('image'), (req, res) => {
                 name,
                 birthday,
                 gender,
-                job
+                job,
+                createdAt,
+                deletedAt,
+                isDeleted
             }
         });
     });
+});
+
+app.delete('/api/customers/:customer_id', (req, res) => {
+    const customer_id = Number(req.params.customer_id);
+    const deletedAt = new Date();
+    const isDeleted = 1;
+    const query = `UPDATE customer SET deletedAt = ?, isDeleted = ? WHERE customer_id = ?`;
+    connection.query(query, [deletedAt, isDeleted, customer_id], (error, rows, fields) => {
+        if (error) {
+            return res.json({
+                success: false,
+                message: error.sqlMessage
+            });
+        };
+        return res.json({ success: true });
+    })
 });
 
 const port = process.env.PORT || 5000;
