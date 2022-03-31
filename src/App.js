@@ -1,3 +1,5 @@
+import Paper from "@mui/material/Paper";
+import withStyles from "@mui/styles/withStyles";
 import Customer from "./components/Customer";
 
 const clientProps = [
@@ -27,10 +29,21 @@ const clientProps = [
   }
 ];
 
-const App = () => {
+const styles = (theme) => ({
+  app: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto'
+  },
+});
+
+const App = (props) => {
+  const { classes } = props;
   return (
-    <Customer customers={clientProps} />
+    <Paper className={classes.app}>
+      <Customer customers={clientProps} />
+    </Paper>
   );
 };
 
-export default App;
+export default withStyles(styles)(App);
