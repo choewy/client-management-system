@@ -6,8 +6,6 @@ import TableRow from "@mui/material/TableRow";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import withStyles from "@mui/styles/withStyles";
-import { useEffect, useState } from "react";
-import { getCustomers } from "../actions/actions.customers";
 
 const styles = (theme) => ({
     table: {
@@ -15,21 +13,24 @@ const styles = (theme) => ({
     },
     backdrop: {
         zIndex: theme.zIndex.drawer + 1
-    }
+    },
+    image: {
+        width: 60,
+        height: 60
+    },
+    imageNull: {
+        width: 60,
+        height: 60,
+        backgroundColor: '#ddd',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: '#888'
+    },
 });
 
 const Customers = (props) => {
-    const { classes } = props;
-    const [customers, setCustomers] = useState();
-
-    useEffect(() => {
-        const getCustomerRows = async () => {
-            const { success, rows } = await getCustomers();
-            if (success) return setCustomers(rows);
-            return alert("불러올 수 없습니다.");
-        };
-        return () => getCustomerRows();
-    }, []);
+    const { classes, customers } = props;
 
     if (!customers) {
         return (
@@ -55,16 +56,23 @@ const Customers = (props) => {
                 <TableBody>
                     {
                         customers.map((customer, key) => {
+                            const { customer_id, image, name, birthday, gender, job } = customer;
                             return (
                                 <TableRow key={key}>
-                                    <TableCell>{customer.customer_id}</TableCell>
-                                    <TableCell><img alt="profile" src={customer.image} /></TableCell>
-                                    <TableCell>{customer.name}</TableCell>
-                                    <TableCell>{customer.birthday}</TableCell>
-                                    <TableCell>{customer.gender}</TableCell>
-                                    <TableCell>{customer.job}</TableCell>
+                                    <TableCell>{customer_id}</TableCell>
+                                    <TableCell>
+                                        {
+                                            image
+                                                ? <img className={classes.image} alt="profile" src={image} />
+                                                : <div className={classes.imageNull}>NULL</div>
+                                        }
+                                    </TableCell>
+                                    <TableCell>{name}</TableCell>
+                                    <TableCell>{birthday}</TableCell>
+                                    <TableCell>{gender}</TableCell>
+                                    <TableCell>{job}</TableCell>
                                 </TableRow>
-                            )
+                            );
                         })
                     }
                 </TableBody>
