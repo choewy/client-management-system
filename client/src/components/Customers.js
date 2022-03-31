@@ -18,16 +18,7 @@ const styles = (theme) => ({
     image: {
         width: 60,
         height: 60
-    },
-    imageNull: {
-        width: 60,
-        height: 60,
-        backgroundColor: '#ddd',
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: '#888'
-    },
+    }
 });
 
 const tableColumns = ["번호", "이미지", "이름", "생년월일", "성별", "직업", "등록일자"]
@@ -68,11 +59,7 @@ const Customers = (props) => {
                                 <TableRow key={key}>
                                     <TableCell>{key + 1}</TableCell>
                                     <TableCell>
-                                        {
-                                            image
-                                                ? <img className={classes.image} alt="profile" src={image} />
-                                                : <div className={classes.imageNull}>NULL</div>
-                                        }
+                                        <img className={classes.image} alt="profile" src={image ? image : "img/default_profile.png"} />
                                     </TableCell>
                                     <TableCell>{name}</TableCell>
                                     <TableCell>{birthday}</TableCell>
