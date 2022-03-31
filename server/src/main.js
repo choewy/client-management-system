@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 
@@ -9,41 +11,29 @@ app.use(cors({
     credentials: true
 }));
 
-const port = process.env.PORT || 5000;
+const mysql = require('mysql');
+const config = {
+    host: process.env.MYSQL_HOST,
+    port: Number(process.env.MYSQL_PORT),
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+};
+
+const connection = mysql.createConnection(config);
+connection.connect();
 
 app.get('/api/customers', (req, res) => {
-    console.log(1);
-    return res.json({
-        success: true,
-        rows: [
-            {
-                id: 1,
-                image: "https://placeimg.com/64/64/any",
-                name: "최원영",
-                birthday: "950302",
-                gender: "남자",
-                job: "선원"
-            },
-            {
-                id: 2,
-                image: "https://placeimg.com/64/64/any",
-                name: "테스트",
-                birthday: "950302",
-                gender: "남자",
-                job: "선원"
-            },
-            {
-                id: 3,
-                image: "https://placeimg.com/64/64/any",
-                name: "홍길동",
-                birthday: "950302",
-                gender: "남자",
-                job: "선원"
-            }
-        ]
+    const query = `SELECT * FROM customer`;
+    connection.query(query, (err, rows, fields) => {
+        return res.json({
+            success: true,
+            rows
+        });
     });
 });
 
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
