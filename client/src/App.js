@@ -7,7 +7,6 @@ import Box from '@mui/material/Box';
 import CssBaseline from "@mui/material/CssBaseline";
 import NavBar from "./components/commons/NavBar";
 import SideBar from "./components/commons/SideBar";
-import Customers from "./components/customers/Customers";
 import { Route, Routes } from "react-router-dom";
 import Components from "./components/Components";
 
