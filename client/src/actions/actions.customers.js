@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export const getCustomers = async () => {
-    const { data: { success, rows, message } } = await axios.get('/api/customers');
-    return { success, rows, message };
+    const { data: { ok, rows, message } } = await axios.get('/api/customers');
+    return { ok, rows, message };
 };
 
 export const addCustomer = async (body) => {
@@ -15,11 +15,11 @@ export const addCustomer = async (body) => {
             'content-type': 'multipart/form-data'
         }
     };
-    const { data: { success, row, message } } = await axios.post('/api/customers', formData, config);
-    return { success, row, message };
+    const { data: { ok, row, message } } = await axios.post('/api/customers', formData, config);
+    return { ok, row, message };
 };
 
 export const deleteCustomer = async (customer_id) => {
-    const { data: { success, message } } = await axios.delete(`/api/customers/${customer_id}`);
-    return { success, message };
+    const { data: { ok, message } } = await axios.delete(`/api/customers/${customer_id}`);
+    return { ok, message };
 };

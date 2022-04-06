@@ -3,16 +3,13 @@ import { alpha } from '@mui/material/styles';
 import withStyles from "@mui/styles/withStyles";
 import { useEffect, useState } from "react";
 import { getCustomers } from "./actions/actions.customers";
-import CustomerAdd from "./components/CustomerAdd";
-import Customers from "./components/Customers";
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
+import CssBaseline from "@mui/material/CssBaseline";
+import NavBar from "./components/commons/NavBar";
+import SideBar from "./components/commons/SideBar";
+import Customers from "./components/customers/Customers";
+import { Route, Routes } from "react-router-dom";
+import Components from "./components/Components";
 
 const styles = (theme) => ({
   app: {
@@ -60,63 +57,61 @@ const styles = (theme) => ({
   }
 });
 
+const components = Components();
+
 const App = (props) => {
   const { classes } = props;
   const [customers, setCustomers] = useState();
-
-  const customerAddProps = {
-    customers, setCustomers
-  };
-
-  const customersProps = {
-    customers, setCustomers
-  };
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const getCustomerRows = async () => {
-      const { success, rows } = await getCustomers();
-      if (success) return setCustomers(rows);
+      const { ok, rows } = await getCustomers();
+      if (ok) return setCustomers(rows);
       return alert("불러올 수 없습니다.");
     };
     return () => getCustomerRows();
   }, []);
 
+  const navbarOpenHandler = () => {
+    setOpen(true);
+  };
+
+  const navbarCloseHandler = () => {
+    setOpen(false);
+  };
+
+  const navBarProps = {
+    open,
+    navbarOpenHandler,
+  };
+
+  const sideBarProps = {
+    open,
+    navbarCloseHandler
+  };
+
+  const componentProps = {
+    customers, setCustomers
+  };
+
   return (
     <div>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}>
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
-              고객 관리 시스템
-            </Typography>
-            <div className={classes.search}>
-              <div className={classes.searchWrapper}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                className={classes.searchInputBase}
-                placeholder="검색어"
-                inputProps={{ 'aria-label': 'search' }}
-                sx={{ color: '#fff' }} />
-            </div>
-          </Toolbar>
-        </AppBar>
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <NavBar {...navBarProps} />
+        <SideBar {...sideBarProps} />
       </Box>
-      <CustomerAdd {...customerAddProps} />
       <Paper className={classes.app}>
-        <Customers {...customersProps} />
+        <Routes>
+          {
+            components.map((component, key) => {
+              const { path, element } = component(componentProps);
+              const routeProps = { path, element };
+              return <Route {...routeProps} />;
+            })
+          }
+        </Routes>
       </Paper>
     </div>
   );
