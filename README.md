@@ -6,7 +6,10 @@
 $ git clone https://github.com/choewy/client-management-system.git
 ```
 
-- Docker Container : MySQL(8.x)
+- Docker Container
+- service: MySQL(8.x)
+- port : 5001
+- db : service
 
 ```
 $ docker-compose up -d
